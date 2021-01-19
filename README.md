@@ -1,7 +1,7 @@
 Required plugins (optional): Skript, Skellet, SkQuery.
 Required plugins (needed): Skript-yaml.
 
-Commands
+--- Commands ---
 /watchdog help
 /watchdog kick
 /watchdog ban
@@ -10,12 +10,12 @@ Commands
 /watchdog reload
 More coming soon!
 
-Permissions
+--- Permissions ---
 watchdog.staff
 watchdog.*
 More coming soon!
 
-Aliases
+--- Aliases ---
 /watchdog
 /wd
 More coming soon!
