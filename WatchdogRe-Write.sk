@@ -1,0 +1,104 @@
+command /watchdog [<text>] [<offlineplayer>] [<text>]:
+	permission: watchdog.staff
+	usage: &b/watchdog help
+	aliases: /wd
+	trigger:
+		if arg 1 is not set:
+			send "&f[&4WatchDog&f]: Do /watchdog help for commands!"
+		if arg 1 is help:
+			if arg 2 is not set:
+				send "&f[&4WatchDog&f]: &4Commands"
+				send "&f[&4WatchDog&f]: &b/watchdog help"
+				send "&f[&4WatchDog&f]: &b/watchdog kick"
+				send "&f[&4WatchDog&f]: &b/watchdog ban"
+				send "&f[&4WatchDog&f]: &b/watchdog tempban"
+				send "&f[&4WatchDog&f]: &b/watchdog broadcast"
+				send "&f[&4WatchDog&f]: &4page &b1 &4of &b1"
+			if arg 2 is "1":
+				send "&f[&4WatchDog&f]: &4Commands"
+				send "&f[&4WatchDog&f]: &b/watchdog help"
+				send "&f[&4WatchDog&f]: &b/watchdog kick"
+				send "&f[&4WatchDog&f]: &b/watchdog ban"
+				send "&f[&4WatchDog&f]: &b/watchdog tempban"
+				send "&f[&4WatchDog&f]: &b/watchdog broadcast"
+				send "&f[&4WatchDog&f]: &4page &b1 &4of &b1"
+		if arg 1 is "reload":
+			execute console command "/sk reload anticheat"
+			send "Successfully reloaded &4Watchdog!"
+		if arg 1 is "broadcast":
+			broadcast "&f[&4WatchDog&f]: Over &4%{banned.users}%&f users have been banned! Please follow the rules and do not swear, hack or disrepsect players or staff!"
+		if arg 1 is "kick":
+			if player has permission "watchdog.kick" or "watchdog.*":
+				if arg 2 is not set:
+					send "&f[&4WatchDog&f]: Please select a player!"
+				else:
+					send "&f[&4WatchDog&f]: %arg 2% has been &4kicked&f!"
+					execute console command "kick %arg 2% &6WatchDog Kick&f &4You have been kicked from BRbox! -s"
+					add 1 to {banned.users}
+					broadcast "&f[&4WatchDog&f]: A &4Player &fhas been removed from your game! Sorry for the &4inconvenience&f."
+					set {lastestbanned.user.staff} to %player%
+					set {lastestbanned.user.victim} to %arg 2%
+					loop-all players:
+						if loop-player has permission "watchdog.staff":
+							send "&f[&4WatchDog&f]: &e%{latestbanned.user.staff}% &bhas kicked &4%{latestbanned.user.victim}%"
+			else:
+				send "&f[&4WatchDog&f]: &cError: &4You do not have permission."
+		if arg 1 is "ban":
+			if player has permission "watchdog.kick" or "watchdog.*":
+				if arg 2 is not set:
+					send "&f[&4WatchDog&f]: Please select a player!"
+				else:
+					send "&f[&4WatchDog&f]: %arg 2% has been &4banned&f!"
+					execute console command "ban %arg 2% &6WatchDog Ban&f &4You have been banned from BRbox! -s"
+					add 1 to {banned.users}
+					broadcast "&f[&4WatchDog&f]: A &4Player &fhas been removed from your game! Sorry for the &4inconvenience&f."
+					set {lastestbanned.user.staff} to %player%
+					set {lastestbanned.user.victim} to %arg 2%
+					loop-all players:
+						if loop-player has permission "watchdog.staff":
+							send "&f[&4WatchDog&f]: &e%{latestbanned.user.staff}% &bhas banned &4%{latestbanned.user.victim}%"
+			else:
+				send "&f[&4WatchDog&f]: &cError: &4You do not have permission."
+		if arg 1 is "tempban":
+			if player has permission "watchdog.kick" or "watchdog.*":
+				if arg 2 is not set:
+					send "&f[&4WatchDog&f]: Please select a player!"
+				else:
+					send "&f[&4WatchDog&f]: %arg 2% has been &4tempbanned for three days&f!"
+					execute console command "kick -s %arg 2% &6WatchDog Ban&f &4You have been tempbanned for 3 days from BRbox! -s"
+					add 1 to {banned.users}
+					broadcast "&f[&4WatchDog&f]: A &4Player &fhas been removed from your game! Sorry for the &4inconvenience&f."
+					set {lastestbanned.user.staff} to %player%
+					set {lastestbanned.user.victim} to %arg 2%
+					loop-all players:
+						if loop-player has permission "watchdog.staff":
+							send "&f[&4WatchDog&f]: &e%{latestbanned.user.staff}% &bhas tempbanned &4%{latestbanned.user.victim}%"
+			else:
+				send "&f[&4WatchDog&f]: &cError: &4You do not have permission."
+		if arg 1 is "gui":
+			if player has permission "watchdog.kick" or "watchdog.*":
+				open chest with 2 rows named "&b&lSelect Ban Reason" to player
+				wait 1 tick
+				format slot 0 of player with iron sword named "&aKill Aura" with lore "&7Kick" to close then run [make player execute command "wd kick %arg 2%"] 
+				format slot 1 of player with lead named "&aAnti-Knockback" with lore "&7Kick" to close then run [make player execute command "wd kick %arg 2%"]
+				format slot 2 of player with ghast tear named "&aFlying" with lore "&7Kick" to close then run [make player execute command "wd kick %arg 2%"]
+				format slot 3 of player with speed potion named "&aSpeed" with lore "&7Kick" to close then run [make player execute command "wd kick %arg 2%"]
+				format slot 4 of player with apple named "&aFast Eat" with lore "&7Kick" to close then run [make player execute command "wd kick %arg 2%"]
+				format slot 5 of player with compass named "&aBan Evasion" with lore "&7Kick" to close then run [make player execute command "wd kick %arg 2%"]
+				format slot 6 of player with daylight sensor named "&aBug Abuse" with lore "&7Kick" to close then run [make player execute command "wd kick %arg 2%"]
+				format slot 7 of player with melon slice named "&aNo Slowdown" with lore "&7Kick" to close then run [make player execute command "wd kick %arg 2%"] 
+				format slot 8 of player with boat named "&aOther" with lore "&7Kick" to close then run [make player execute command "wd kick %arg 2%"]
+				format slot 17 of player with red wool named "&aCancel" with lore "&7Kick" to close
+			else:
+				send "&f[&4WatchDog&f]: &cError: &4You do not have permission."
+
+command /devwarn <offlineplayer> <offlineplayer>:
+	trigger:
+		send "&f[&4WatchDog&f]: &4Please stop attacking %arg 2% &4or you will be punished imminently!" to arg 1
+
+command /devbroadcast [<text>]:
+	trigger:
+    		broadcast "&f[&4WatchDog&f]:&f&l %colored arg%"
+		
+every 5 minutes:
+	execute console command "wd broadcast"
